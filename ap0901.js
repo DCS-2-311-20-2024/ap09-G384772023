@@ -17,7 +17,7 @@ function init() {
   const param = {
     axes: false, // 座標軸
     tyuuya: false, //trueで夜falseで夜
-    follow: true, //追跡
+    follow: false, //追跡
   };
 
   // GUIコントローラの設定
@@ -346,7 +346,6 @@ function init() {
         xwing = gltf.scene;
         scene.add(xwing);
         render(); // 描画開始
-        setBackground();
       }
     );
   }
@@ -355,12 +354,12 @@ function init() {
   // 制御点
   const controlPoints = [
     [0, 0, 0],
-    [-housesize.flx/4,4,-housesize.flz/2],
-    [-housesize.flx/2+3,10,0],
+    [-housesize.flx/4,4,-housesize.flz/2+10],
+    [-housesize.flx/2+6,10,0],
     [-housesize.flx/4,16,housesize.flz/2],
     [0,19,0],
-    [housesize.flx/4,16,-housesize.flz/2],
-    [housesize.flx/2-3,10,0],
+    [housesize.flx/4,16,-housesize.flz/2+10],
+    [housesize.flx/2-6,10,0],
     [housesize.flx/4,4,housesize.flz/2]
   ]
   // コースの補間
@@ -377,13 +376,7 @@ function init() {
       ];
     }).flat(),true
   );
-  // コースの描画
-const points = course.getPoints(300);
-const courseObject = new THREE.Line(
-  new THREE.BufferGeometry().setFromPoints(points),
-  new THREE.LineBasicMaterial({ color: "black"})
-);
-scene.add(courseObject);
+  
   //　カメラの更新
   orbitControls.update();
   // 描画処理
@@ -420,8 +413,9 @@ scene.add(courseObject);
       camera.up.set(0,1,0);
     }else{
       camera.position.set(0,60,80);
-      
+
     }
+    
     // 描画
     renderer.render(scene, camera);
     // 次のフレームでの描画要請
