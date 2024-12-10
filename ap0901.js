@@ -9,6 +9,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons";
 import {GLTFLoader} from "three/addons";
 import { GUI } from "ili-gui";
+import { makeCBRobot } from './robot.js'
 
 
 // ３Ｄページ作成関数の定義
@@ -141,7 +142,7 @@ function init() {
   scene.add(door);
   //窓
   const mdsize = {
-    mfmx: 7.5, // 窓フレームの横
+    mfmx: 18, // 窓フレームの横
     mfmy: 9, // 窓フレームの高さ
     mfmz: 0.5,  //　窓フレームの厚さ
     mdz: 0.005   //窓の厚さ
@@ -229,7 +230,7 @@ function init() {
     const charbe =new THREE.Mesh(new THREE.BoxGeometry(isusize.isubey,isusize.isuverz,isusize.isuverx),charcolor);
     charbe.position.y=(isusize.isulegh+isusize.isubez/2);
     isu.add(charbe);
-    charver.position.set(-(isusize.isubey/2),(isusize.isulegh+isusize.isubez+isusize.isuvery/2),0);
+    charver.position.set(-(isusize.isubey/2)+isusize.isuverz/2,(isusize.isulegh+isusize.isubez+isusize.isuvery/2),0);
     isu.add(charver);
     charlegleft1.position.set(isusize.isuverx/4,isusize.isulegh/2,isusize.isuverx/4);
     isu.add(charlegleft1);
@@ -376,7 +377,17 @@ function init() {
       ];
     }).flat(),true
   );
-  
+
+  // 段ボールロボットの追加
+  const cardboardRobot1 = makeCBRobot();
+  cardboardRobot1.rotation.y=Math.PI/6;
+  cardboardRobot1.position.set(-housesize.flx/4,-1,0);
+  scene.add(cardboardRobot1);
+  const cardboardRobot2 = makeCBRobot();
+  cardboardRobot2.rotation.x=-Math.PI/2;
+  cardboardRobot2.rotation.z=-Math.PI/2;
+  cardboardRobot2.position.set(housesize.flx/4-5,tblsize.asih-1+tblsize.tenz/2+1,0);
+  scene.add(cardboardRobot2);
   //　カメラの更新
   orbitControls.update();
   // 描画処理
@@ -412,8 +423,8 @@ function init() {
       camera.lookAt(xwing.position);
       camera.up.set(0,1,0);
     }else{
-      camera.position.set(0,60,80);
-
+      camera.position.set(40,50,80);
+      camera.lookAt(0,0,0);
     }
     
     // 描画
