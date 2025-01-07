@@ -415,7 +415,7 @@ function init() {
     xwing.lookAt(xwingTarget);
     // 座標軸の表示
     axes.visible = param.axes;
-    //
+    //昼夜
     if(param.tyuuya) {
       mdcolor.map=textureyoru;
       renderer.setClearColor(0x2f4f4f);
