@@ -21,11 +21,21 @@ function init() {
     follow: false, //追跡
   };
 
+  const cameraParam = { // カメラの設定値
+    fov: 50, // 視野角
+    x: 5,
+    y: 10,
+    z: 20
+  };
+
   // GUIコントローラの設定
   const gui = new GUI();
   gui.add(param, "axes").name("座標軸");
   gui.add(param, "tyuuya").name("昼夜");
   gui.add(param, "follow").name("追跡");
+  gui.add(cameraParam, "x", -45, 45).onChange(render);
+  gui.add(cameraParam, "y", -40, 60).onChange(render);
+  gui.add(cameraParam, "z", -39, 60).onChange(render);
 
   // シーン作成
   const scene = new THREE.Scene();
@@ -47,9 +57,8 @@ function init() {
   scene.add(light2);
   // カメラの作成
   const camera = new THREE.PerspectiveCamera(
-    50, window.innerWidth/window.innerHeight, 0.1, 1000);
-  camera.position.set(0,60,80);
-  camera.lookAt(0,0,0);
+    cameraParam.fov, window.innerWidth/window.innerHeight, 0.1, 1000);
+  
 
   // レンダラの設定
   const renderer = new THREE.WebGLRenderer();
@@ -423,8 +432,11 @@ function init() {
       camera.lookAt(xwing.position);
       camera.up.set(0,1,0);
     }else{
-      camera.position.set(40,50,80);
-      camera.lookAt(0,0,0);
+      camera.fov = cameraParam.fov;
+    camera.position.x = cameraParam.x;
+    camera.position.y = cameraParam.y;
+    camera.position.z = cameraParam.z;
+    camera.lookAt(0, 5, 0);
     }
     
     // 描画
